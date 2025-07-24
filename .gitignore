@@ -1,0 +1,104 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+*.pot
+*.pyc
+*.env
+*.venv
+.env
+.env.*
+
+# Django
+/staticfiles/
+/media/
+/*.db
+*.sqlite3
+*.bak
+*.json
+/db.sqlite3
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# macOS & system
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+*.tmp
+*.swp
+
+# Coverage, test, profiling
+htmlcov/
+coverage.xml
+*.cover
+*.py,cover
+.cache/
+.pytest_cache/
+.noseids
+
+# Migrations (optional: keep if version-controlled)
+**/migrations/*.py
+**/migrations/*.pyc
+!*/migrations/__init__.py
+
+# Pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Celery
+celerybeat-schedule
+*.pid
+
+# Redis / Runtime
+*.rdb
+*.sock
+
+# Docker / Build / Images
+*.orig
+Dockerfile.*
+docker-compose*.yml
+*.tar
+*.img
+*.qcow2
+
+# Flutter (앱이 포함되는 경우)
+flutter/
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+android/.gradle/
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+
+# Node (만약 front-end 있으면)
+node_modules/
+
+# Secret files
+secrets.*
+config.yaml
+config/secrets/
+
+# Static & build outputs
+/static/
+.collectstatic/
+.static_root/
+*.map
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
