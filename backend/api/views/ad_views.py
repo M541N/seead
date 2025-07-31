@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from system_manage.models import Ad
-from system_manage.utils import increment_ad_impression, increment_ad_metric
+from system_manage.utils.ad_metrics import increment_ad_impression, increment_ad_metric
 
 from api.serializers.ad_serializers import (
     AdSerializer, AdUploadSerializer, AdLikeCountSerializer, 
@@ -14,7 +14,7 @@ from api.serializers.ad_serializers import (
 from api.services.ad_service import (
     get_ad_queryset_for_user, toggle_ad_like, get_advertiser_summary, 
     get_like_count, get_top_liked_ads, get_recommended_ads_for_user,
-    increment_ad_impression, increment_ad_metric, calculate_total_cost_for_advertiser
+    calculate_total_cost_for_advertiser
     )
 
 from drf_yasg.utils import swagger_auto_schema

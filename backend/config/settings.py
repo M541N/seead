@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'django_celery_beat',
+    
+    'api',
+    'system_manage',
 ]
 
 MIDDLEWARE = [
@@ -292,3 +295,5 @@ SWAGGER_SETTINGS = {
     'DEFAULT_MODEL_RENDERING': 'example',
     'DOC_EXPANSION': 'none',
 }
+
+FCM_SERVER_KEY = "YOUR_FCM_SERVER_KEY"

@@ -16,6 +16,7 @@ from system_manage.models.logs import CampaignBudgetLog, CampaignStatusLog
 from api.services.campaign_service import get_advertiser_campaigns, is_campaign_owner
 
 from system_manage.utils.notification import send_notification
+from system_manage.utils.fcm import send_fcm_notification
 
 # 캠페인 목록
 class CampaignListView(generics.ListAPIView):
@@ -127,6 +128,15 @@ class CampaignBudgetChargeView(APIView):
                 type="budget_update"
             )
             
+            # FCM 푸시 알림 (예산 충전 완료)
+            fcm_token = campaign.advertiser.user.profile.fcm_token  # DB에 저장된 FCM 토큰
+            if fcm_token:
+                send_fcm_notification(
+                    fcm_token,
+                    title="캠페인 예산 충전 완료",
+                    body=f"{campaign.name} 캠페인에 예산이 충전되었습니다."
+                )
+
             return Response({
                 "success": True,
                 "new_total_budget": campaign.total_budget,
