@@ -35,6 +35,9 @@ class Profile(models.Model):
     is_active = models.BooleanField(default=True, verbose_name="활성 여부")
     seead_point = models.IntegerField(default=0, verbose_name="씨앗 포인트")
 
+    # ✅ FCM 토큰 필드 추가
+    fcm_token = models.CharField(max_length=255, blank=True, null=True, verbose_name="FCM 토큰")
+
     def __str__(self):
         return self.membername if self.membername else self.user.username
 

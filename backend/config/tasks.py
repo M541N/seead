@@ -8,7 +8,7 @@ from celery import shared_task
 from celery.schedules import crontab
 
 from system_manage.models import Ad, AdPerformanceSnapshot, AdCampaign
-from system_manage.utils import r
+from backend.system_manage.utils.ad_metrics import r
 
 from api.services.campaign_service import check_and_update_campaign_status
 

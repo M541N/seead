@@ -1,0 +1,1081 @@
+openapi: 3.0.1
+info:
+  title: seeAD 숏폼 광고 플랫폼 API
+  description: |-
+    앱/웹 공용 광고 플랫폼 API 문서
+
+    ⚙️ 인증 토큰은 오른쪽 Authorize 버튼을 통해 입력하세요.
+  termsOfService: https://www.seead.com/terms/
+  contact:
+    name: 개발팀
+    url: https://seead.com
+    email: support@seead.com
+  license:
+    name: MIT License
+  version: v1
+servers:
+  - url: http://localhost:8000/api
+security:
+  - Bearer: []
+paths:
+  /ad/cost-summary/:
+    get:
+      tags:
+        - ad
+      summary: 광고주 리워드 기반 광고비 총액 조회
+      operationId: ad_cost-summary_list
+      responses:
+        "200":
+          description: ""
+          content: {}
+  /ad/event/:
+    post:
+      tags:
+        - ad
+      summary: 광고 시청/클릭/전환 실시간 기록
+      operationId: ad_event_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdMetricEvent'
+        required: true
+      responses:
+        "200":
+          description: 이벤트 기록 완료
+          content: {}
+      x-codegen-request-body-name: data
+  /ad/expose/:
+    post:
+      tags:
+        - ad
+      summary: 광고 노출 감지 및 Redis 저장
+      operationId: ad_expose_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdExpose'
+        required: true
+      responses:
+        "200":
+          description: 저장 완료
+          content: {}
+      x-codegen-request-body-name: data
+  /ad/list/:
+    get:
+      tags:
+        - ad
+      operationId: ad_list_list
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ad'
+  /ad/recommend/:
+    get:
+      tags:
+        - ad
+      summary: 시청 이력 기반 추천 광고 조회
+      operationId: ad_recommend_list
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdRecommend'
+  /ad/summary/:
+    get:
+      tags:
+        - ad
+      summary: 광고 성과 요약 조회
+      operationId: ad_summary_list
+      responses:
+        "200":
+          description: ""
+          content: {}
+  /ad/top-liked/:
+    get:
+      tags:
+        - ad
+      summary: 좋아요 많은 광고 Top10 조회
+      operationId: ad_top-liked_list
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdLikeCount'
+  /ad/upload/:
+    post:
+      tags:
+        - ad
+      summary: 광고 등록 (영상 업로드)
+      operationId: ad_upload_create
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - brand
+                - category
+                - redirect_url
+                - thumbnail_img
+                - title
+                - video_file
+              type: object
+              properties:
+                title:
+                  maxLength: 255
+                  minLength: 1
+                  type: string
+                  description: ""
+                description:
+                  type: string
+                  description: ""
+                reward_point:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: ""
+                  format: int32
+                redirect_url:
+                  maxLength: 200
+                  minLength: 1
+                  type: string
+                  description: ""
+                  format: uri
+                category:
+                  type: integer
+                  description: ""
+                  format: int32
+                brand:
+                  type: integer
+                  description: ""
+                  format: int32
+                video_file:
+                  type: string
+                  description: ""
+                  format: binary
+                thumbnail_img:
+                  type: string
+                  description: ""
+                  format: binary
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - brand
+                - category
+                - redirect_url
+                - thumbnail_img
+                - title
+                - video_file
+              type: object
+              properties:
+                title:
+                  maxLength: 255
+                  minLength: 1
+                  type: string
+                  description: ""
+                description:
+                  type: string
+                  description: ""
+                reward_point:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: ""
+                  format: int32
+                redirect_url:
+                  maxLength: 200
+                  minLength: 1
+                  type: string
+                  description: ""
+                  format: uri
+                category:
+                  type: integer
+                  description: ""
+                  format: int32
+                brand:
+                  type: integer
+                  description: ""
+                  format: int32
+                video_file:
+                  type: string
+                  description: ""
+                  format: binary
+                thumbnail_img:
+                  type: string
+                  description: ""
+                  format: binary
+        required: true
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdUpload'
+  /ad/{id}/:
+    get:
+      tags:
+        - ad
+      summary: 광고 상세 조회
+      operationId: ad_read
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this 광고 소재.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ad'
+  /ad/{id}/like/:
+    post:
+      tags:
+        - ad
+      summary: 광고 좋아요 토글
+      operationId: ad_like_create
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this 광고 소재.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ad'
+        required: true
+      responses:
+        "200":
+          description: 좋아요 상태
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ad_id:
+                    type: integer
+                  liked:
+                    type: boolean
+                  success:
+                    type: boolean
+      x-codegen-request-body-name: data
+  /ad/{id}/likes/:
+    get:
+      tags:
+        - ad
+      summary: 특정 광고의 좋아요 수 조회
+      operationId: ad_likes_list
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Like Count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  like_count:
+                    type: integer
+  /auth/login/:
+    post:
+      tags:
+        - auth
+      summary: 로그인 (JWT 발급)
+      operationId: auth_login_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPair'
+        required: true
+      responses:
+        "200":
+          description: 토큰 발급
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomTokenObtainPair'
+      x-codegen-request-body-name: data
+  /auth/logout/:
+    post:
+      tags:
+        - auth
+      summary: 로그아웃
+      operationId: auth_logout_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh:
+                  type: string
+        required: true
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  refresh:
+                    type: string
+      x-codegen-request-body-name: data
+  /auth/me/:
+    get:
+      tags:
+        - auth
+      summary: 내 정보 조회
+      operationId: auth_me_list
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+  /auth/signup/:
+    post:
+      tags:
+        - auth
+      summary: 회원가입
+      operationId: auth_signup_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signup'
+        required: true
+      responses:
+        "201":
+          description: 생성됨
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Signup'
+      x-codegen-request-body-name: data
+  /auth/token/refresh/:
+    post:
+      tags:
+        - auth
+      summary: 토큰 갱신
+      operationId: auth_token_refresh_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+      x-codegen-request-body-name: data
+  /campaign/:
+    get:
+      tags:
+        - campaign
+      operationId: campaign_list
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdCampaign'
+  /campaign/create/:
+    post:
+      tags:
+        - campaign
+      operationId: campaign_create_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdCampaign'
+        required: true
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdCampaign'
+      x-codegen-request-body-name: data
+  /campaign/{id}/:
+    get:
+      tags:
+        - campaign
+      summary: 캠페인 상세 조회
+      operationId: campaign_read
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this 광고 캠페인.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdCampaign'
+  /campaign/{id}/charge-budget/:
+    post:
+      tags:
+        - campaign
+      summary: 캠페인 예산 충전 (완료 상태 복구 포함)
+      operationId: campaign_charge-budget_create
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignBudgetCharge'
+        required: true
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignBudgetCharge'
+      x-codegen-request-body-name: data
+  /campaign/{id}/edit/:
+    get:
+      tags:
+        - campaign
+      operationId: campaign_edit_read
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this 광고 캠페인.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdCampaign'
+    put:
+      tags:
+        - campaign
+      summary: 캠페인 수정
+      operationId: campaign_edit_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this 광고 캠페인.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdCampaign'
+        required: true
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdCampaign'
+      x-codegen-request-body-name: data
+    delete:
+      tags:
+        - campaign
+      summary: 캠페인 삭제
+      operationId: campaign_edit_delete
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this 광고 캠페인.
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: ""
+          content: {}
+    patch:
+      tags:
+        - campaign
+      operationId: campaign_edit_partial_update
+      parameters:
+        - name: id
+          in: path
+          description: A unique integer value identifying this 광고 캠페인.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdCampaign'
+        required: true
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdCampaign'
+      x-codegen-request-body-name: data
+  /campaign/{id}/extend-duration/:
+    post:
+      tags:
+        - campaign
+      summary: 캠페인 종료일 연장
+      operationId: campaign_extend-duration_create
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignDurationExtend'
+        required: true
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignDurationExtend'
+      x-codegen-request-body-name: data
+  /campaign/{id}/logs/:
+    get:
+      tags:
+        - campaign
+      summary: 캠페인 로그 조회 (예산/상태 변경)
+      operationId: campaign_logs_list
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content: {}
+  /notifications/:
+    get:
+      tags:
+        - notifications
+      summary: 내 알림 목록 조회
+      operationId: notifications_list
+      responses:
+        "200":
+          description: ""
+          content: {}
+  /reward/claim/:
+    post:
+      tags:
+        - reward
+      summary: 리워드 지급 요청
+      operationId: reward_claim_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - ad_id
+                - point
+              type: object
+              properties:
+                ad_id:
+                  type: integer
+                point:
+                  type: integer
+        required: true
+      responses:
+        "200":
+          description: 지급 결과
+          content: {}
+      x-codegen-request-body-name: data
+  /reward/history/:
+    get:
+      tags:
+        - reward
+      summary: 리워드 지급 이력 조회
+      operationId: reward_history_list
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RewardHistory'
+  /reward/status/:
+    get:
+      tags:
+        - reward
+      summary: 리워드 상태 조회
+      operationId: reward_status_list
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RewardStatus'
+components:
+  schemas:
+    Ad:
+      required:
+        - redirect_url
+        - title
+      type: object
+      properties:
+        description:
+          title: 소재 설명
+          type: string
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        liked:
+          title: Liked
+          type: string
+          readOnly: true
+        media:
+          $ref: '#/components/schemas/AdMedia'
+        redirect_url:
+          title: 랜딩 URL
+          maxLength: 200
+          minLength: 1
+          type: string
+          format: uri
+        reward_point:
+          title: 리워드 포인트
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+        title:
+          title: 광고 소재명
+          maxLength: 255
+          minLength: 1
+          type: string
+    AdCampaign:
+      required:
+        - end_date
+        - name
+        - start_date
+      type: object
+      properties:
+        advertiser:
+          title: 광고주
+          type: integer
+          readOnly: true
+        created_at:
+          title: 생성일시
+          type: string
+          format: date-time
+          readOnly: true
+        daily_budget:
+          title: 일일 예산
+          type: number
+          format: float
+        end_date:
+          title: 캠페인 종료일
+          type: string
+          format: date
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        name:
+          title: 캠페인명
+          maxLength: 255
+          minLength: 1
+          type: string
+        seead_per_view:
+          title: 뷰당 지급 Seed
+          maximum: 4294967295
+          minimum: 0
+          type: integer
+        start_date:
+          title: 캠페인 시작일
+          type: string
+          format: date
+        status:
+          title: 캠페인 상태
+          type: string
+          enum:
+            - DRAFT
+            - PENDING_REVIEW
+            - SCHEDULED
+            - OPERATING
+            - PAUSED
+            - ENDED
+            - COMPLETED
+            - REJECTED
+        target_age_max:
+          title: 타겟 최대 연령
+          maximum: 4294967295
+          minimum: 0
+          type: integer
+        target_age_min:
+          title: 타겟 최소 연령
+          maximum: 4294967295
+          minimum: 0
+          type: integer
+        target_gender:
+          title: 타겟 성별
+          type: string
+          enum:
+            - Male
+            - Female
+        target_interests:
+          uniqueItems: true
+          type: array
+          items:
+            title: 타겟 관심사
+            type: integer
+        target_regions:
+          uniqueItems: true
+          type: array
+          items:
+            title: 타겟 지역
+            type: integer
+        total_budget:
+          title: 총 예산
+          type: number
+          format: float
+        updated_at:
+          title: 수정일시
+          type: string
+          format: date-time
+          readOnly: true
+    AdExpose:
+      required:
+        - ad_id
+      type: object
+      properties:
+        ad_id:
+          title: Ad id
+          type: integer
+    AdLikeCount:
+      required:
+        - like_count
+        - title
+      type: object
+      properties:
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        like_count:
+          title: Like count
+          type: integer
+        title:
+          title: 광고 소재명
+          maxLength: 255
+          minLength: 1
+          type: string
+    AdMedia:
+      required:
+        - media_url
+      type: object
+      properties:
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        media_url:
+          title: 미디어 URL (외부)
+          maxLength: 200
+          minLength: 1
+          type: string
+          format: uri
+        thumbnail_img:
+          title: 썸네일 이미지
+          type: string
+          format: uri
+          readOnly: true
+        video_duration:
+          title: 비디오 길이(초)
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+        video_file:
+          title: 비디오 파일
+          type: string
+          format: uri
+          readOnly: true
+    AdMetricEvent:
+      required:
+        - ad_id
+        - event_type
+      type: object
+      properties:
+        ad_id:
+          title: Ad id
+          type: integer
+        event_type:
+          title: Event type
+          type: string
+          enum:
+            - view
+            - click
+            - conversion
+    AdRecommend:
+      required:
+        - redirect_url
+        - title
+      type: object
+      properties:
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        media_url:
+          title: Media url
+          type: string
+          readOnly: true
+        redirect_url:
+          title: 랜딩 URL
+          maxLength: 200
+          minLength: 1
+          type: string
+          format: uri
+        reward_point:
+          title: 리워드 포인트
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+        title:
+          title: 광고 소재명
+          maxLength: 255
+          minLength: 1
+          type: string
+    AdUpload:
+      required:
+        - brand
+        - category
+        - redirect_url
+        - title
+      type: object
+      properties:
+        brand:
+          title: 브랜드
+          type: integer
+        category:
+          title: 카테고리
+          type: integer
+        description:
+          title: 소재 설명
+          type: string
+        redirect_url:
+          title: 랜딩 URL
+          maxLength: 200
+          minLength: 1
+          type: string
+          format: uri
+        reward_point:
+          title: 리워드 포인트
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+        thumbnail_img:
+          title: Thumbnail img
+          type: string
+          format: uri
+          readOnly: true
+        title:
+          title: 광고 소재명
+          maxLength: 255
+          minLength: 1
+          type: string
+        video_file:
+          title: Video file
+          type: string
+          format: uri
+          readOnly: true
+    CampaignBudgetCharge:
+      required:
+        - amount
+      type: object
+      properties:
+        amount:
+          title: Amount
+          type: number
+          format: float
+    CampaignDurationExtend:
+      required:
+        - new_end_date
+      type: object
+      properties:
+        new_end_date:
+          title: New end date
+          type: string
+          format: date
+    CustomTokenObtainPair:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        password:
+          title: Password
+          minLength: 1
+          type: string
+        username:
+          title: Username
+          minLength: 1
+          type: string
+    RewardHistory:
+      required:
+        - points
+      type: object
+      properties:
+        ad_title:
+          title: Ad title
+          type: string
+          readOnly: true
+        created_at:
+          title: 지급일시
+          type: string
+          format: date-time
+          readOnly: true
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        points:
+          title: Points
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+    RewardStatus:
+      required:
+        - available_seed
+        - daily_limit
+        - today_claimed
+      type: object
+      properties:
+        available_seed:
+          title: Available seed
+          type: integer
+        daily_limit:
+          title: Daily limit
+          type: integer
+        today_claimed:
+          title: Today claimed
+          type: integer
+    Signup:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        email:
+          title: 이메일 주소
+          maxLength: 254
+          type: string
+          format: email
+        password:
+          title: Password
+          minLength: 1
+          type: string
+        username:
+          title: 사용자 이름
+          maxLength: 150
+          minLength: 1
+          pattern: "^[\\w.@+-]+$"
+          type: string
+          description: "150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다."
+    TokenRefresh:
+      required:
+        - refresh
+      type: object
+      properties:
+        access:
+          title: Access
+          minLength: 1
+          type: string
+          readOnly: true
+        refresh:
+          title: Refresh
+          minLength: 1
+          type: string
+    UserInfo:
+      required:
+        - username
+      type: object
+      properties:
+        email:
+          title: 이메일 주소
+          maxLength: 254
+          type: string
+          format: email
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        username:
+          title: 사용자 이름
+          maxLength: 150
+          minLength: 1
+          pattern: "^[\\w.@+-]+$"
+          type: string
+          description: "150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다."
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: "JWT 형식으로 입력하세요. 예: **Bearer &lt;access_token&gt;**"
+      name: Authorization
+      in: header
+x-original-swagger-version: "2.0"

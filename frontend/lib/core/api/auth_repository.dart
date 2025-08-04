@@ -10,6 +10,7 @@ class AuthRepository {
       final response = await _dio.post('/auth/login/', data: {
         "username": username,
         "password": password,
+        "fcm_token": fcmToken,
       });
 
       final access = response.data['access'];

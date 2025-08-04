@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     
-    'drf_yasg',
+    'drf_spectacular',
     'corsheaders',
     'django_celery_beat',
     
@@ -186,7 +186,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Django REST Framework 설정
 REST_FRAMEWORK = {
     # API 문서화 스키마 자동 생성
-    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     # 기본 인증 방식으로 JWT 사용
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -201,10 +201,14 @@ REST_FRAMEWORK = {
 
 # DRF Spectacular (API 문서) 설정
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'SeeAd Project API',
-    'DESCRIPTION': 'SeeAd 프로젝트의 웹/앱 공용 API 명세서',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    'TITLE': 'SeeAD API',
+    'DESCRIPTION': '앱/웹 공용 광고 플랫폼 API 문서',
+    'VERSION': 'v1',
+    'SERVE_INCLUDE_SCHEMA': False,  # API 스키마 UI에 포함 여부
+    'COMPONENT_SPLIT_REQUEST': True, # request body와 parameter를 별도 component로 분리
+    'CONTACT': {'name': '개발팀', 'url': 'https://seead.com', 'email': 'support@seead.com'},
+    'LICENSE': {'name': 'MIT License'},
+    'TERMS_OF_SERVICE': 'https://www.seead.com/terms/',
 }
 
 # CORS 설정 (Cross-Origin Resource Sharing)
@@ -282,18 +286,6 @@ REWARD_CLAIM_DAILY_LIMITS = {
 # Default limit if member level is not in the dictionary
 DEFAULT_REWARD_CLAIM_DAILY_LIMIT = 0
 
-SWAGGER_SETTINGS = {
-    'USE_SESSION_AUTH': False,  # 세션 인증 비활성화
-    'SECURITY_DEFINITIONS': {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header',
-            'description': 'JWT 형식으로 입력하세요. 예: **Bearer &lt;access_token&gt;**',
-        }
-    },
-    'DEFAULT_MODEL_RENDERING': 'example',
-    'DOC_EXPANSION': 'none',
-}
+
 
 FCM_SERVER_KEY = "YOUR_FCM_SERVER_KEY"
