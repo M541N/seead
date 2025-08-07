@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from system_manage.models import Ad, AdLike, AdMedia, Brand, AdCategory
 
+from drf_spectacular.utils import extend_schema_field
+
 class AdMediaSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdMedia
@@ -14,6 +16,7 @@ class AdSerializer(serializers.ModelSerializer):
         model = Ad
         fields = ['id', 'title', 'description', 'media', 'reward_point', 'redirect_url', 'liked']
 
+    @extend_schema_field(serializers.BooleanField())
     def get_liked(self, obj):
         user = self.context['request'].user
         return AdLike.objects.filter(ad=obj, user=user).exists()
@@ -51,6 +54,7 @@ class AdRecommendSerializer(serializers.ModelSerializer):
         model = Ad
         fields = ['id', 'title', 'reward_point', 'redirect_url', 'media_url']
 
+    @extend_schema_field(serializers.URLField())
     def get_media_url(self, obj):
         return obj.media.media_url if obj.media else None
 

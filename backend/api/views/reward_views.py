@@ -2,9 +2,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from drf_spectacular.utils import extend_schema
+from rest_framework import serializers
+
+from drf_spectacular.utils import extend_schema, inline_serializer
+
 from api.serializers.reward_serializers import RewardStatusSerializer, RewardHistorySerializer
 from api.services import reward_service
+
 from system_manage.models import AdRewardPoint
 
 class RewardStatusView(APIView):
@@ -39,16 +43,23 @@ class ClaimRewardView(APIView):
     @extend_schema(
         tags=["리워드 관리"], 
         summary="리워드 지급 요청",
-        request={
-            "application/json": {
-                "type": "object",
-                "properties": {
-                    "ad_id": {"type": "integer"},
-                    "point": {"type": "integer"}
-                },
-                "required": ["ad_id", "point"]
-            }
+        request=inline_serializer(
+        name="ClaimRewardRequest",
+        fields={
+            "ad_id": serializers.IntegerField(),
+            "point": serializers.IntegerField()
         }
+    ),
+    responses={
+        200: inline_serializer(
+            name="ClaimRewardSuccess",
+            fields={"success": serializers.BooleanField(), "message": serializers.CharField()}
+        ),
+        400: inline_serializer(
+            name="ClaimRewardFail",
+            fields={"success": serializers.BooleanField(), "message": serializers.CharField()}
+        )
+    }
     )
     def post(self, request):
         ad_id = request.data.get("ad_id")

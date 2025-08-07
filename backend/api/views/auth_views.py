@@ -107,4 +107,6 @@ class UserInfoView(APIView):
         responses={200: UserInfoSerializer}
     )
     def get(self, request):
-        return Response({"success": True, "user": UserInfoSerializer(request.user).data})
+        data = UserInfoSerializer(request.user).data
+        data["fcm_token"] = request.user.profile.fcm_token
+        return Response({"success": True, "user": data})

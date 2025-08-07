@@ -1,5 +1,6 @@
 from pyfcm import FCMNotification
 from django.conf import settings
+from celery import shared_task
 
 class FCMService:
     def __init__(self):
@@ -12,13 +13,12 @@ class FCMService:
         if not token:
             return {"success": False, "message": "FCM 토큰 없음"}
 
-        result = self.fcm.notify_single_device(
+        return self.fcm.notify_single_device(
             registration_id=token,
             message_title=title,
             message_body=body,
             data_message=data or {}
         )
-        return result
 
     def send_bulk_notification(self, tokens: list, title: str, body: str, data: dict = None):
         """
@@ -28,10 +28,15 @@ class FCMService:
         if not tokens:
             return {"success": False, "message": "유효한 FCM 토큰 없음"}
 
-        result = self.fcm.notify_multiple_devices(
+        return self.fcm.notify_multiple_devices(
             registration_ids=tokens,
             message_title=title,
             message_body=body,
             data_message=data or {}
         )
-        return result
+
+# Celery 태스크
+@shared_task
+def send_fcm_task(token: str, title: str, body: str, data=None):
+    service = FCMService()
+    return service.send_notification(token, title, body, data)

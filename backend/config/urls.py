@@ -14,7 +14,7 @@ urlpatterns = [
     path("api/notifications/", include("api.urls.notification_urls")),
     path('api/advertiser/', include('api.urls.advertiser_urls')),
  
-    path('api/brand/', include('api.urls.brand_urls')),
+    # path('api/brand/', include('api.urls.brand_urls')),
     
     path("api/profile/", include("api.urls.profile_urls")),
     

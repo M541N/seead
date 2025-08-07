@@ -6,6 +6,23 @@ from rest_framework import status
 from system_manage.models.user import Advertiser
 from api.serializers.advertiser_serializers import AdvertiserDetailSerializer, AdvertiserUpdateSerializer
 
+class AdvertiserDetailAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        responses={200: AdvertiserDetailSerializer},
+        summary="광고주 정보 조회",
+        description="로그인된 사용자의 광고주 상세 정보를 조회합니다."
+    )
+    def get(self, request):
+        try:
+            # request.user.advertiser를 통해 바로 접근하는 것이 더 효율적입니다.
+            advertiser = request.user.advertiser
+            serializer = AdvertiserDetailSerializer(advertiser)
+            return Response(serializer.data)
+        except Advertiser.DoesNotExist:
+            return Response({"error": "광고주 정보를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+
 class AdvertiserUpdateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -41,7 +58,11 @@ class AdvertiserUpdateAPIView(APIView):
         ]
     )
     def put(self, request):
-        advertiser = Advertiser.objects.get(user=request.user)
+        try:
+            advertiser = request.user.advertiser
+        except Advertiser.DoesNotExist:
+            return Response({"error": "광고주 정보를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            
         serializer = AdvertiserUpdateSerializer(advertiser, data=request.data)
         serializer.is_valid(raise_exception=True)
         advertiser = serializer.save()

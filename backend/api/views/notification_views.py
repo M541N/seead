@@ -1,13 +1,30 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import serializers
+
+from drf_spectacular.utils import extend_schema, inline_serializer
+
 from system_manage.models.notification import Notification
-from drf_spectacular.utils import extend_schema
 
 class NotificationListView(APIView):
     permission_classes = [IsAuthenticated]
 
-    @extend_schema(tags=["알림"], summary="내 알림 목록 조회")
+    @extend_schema(
+        tags=["알림"], 
+        summary="내 알림 목록 조회",
+        responses={200: inline_serializer(
+            name="NotificationListResponse",
+            fields={
+                "id": serializers.IntegerField(),
+                "message": serializers.CharField(),
+                "is_read": serializers.BooleanField(),
+                "type": serializers.CharField(),
+                "created_at": serializers.DateTimeField()
+            },
+            many=True
+        )}
+    )
     def get(self, request):
         notis = Notification.objects.filter(recipient=request.user).order_by('-created_at')[:50]
         data = [{

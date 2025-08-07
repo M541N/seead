@@ -2,7 +2,7 @@ from rest_framework import generics, permissions, status, serializers
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema, inline_serializer, OpenApiExample
+from drf_spectacular.utils import extend_schema, inline_serializer, OpenApiExample, extend_schema_field
 
 from system_manage.models import Ad
 from system_manage.utils.ad_metrics import increment_ad_impression, increment_ad_metric

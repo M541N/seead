@@ -1,14 +1,26 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from rest_framework import serializers
+
+from drf_spectacular.utils import extend_schema, OpenApiParameter, inline_serializer
 
 class UpdateFcmTokenView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
         summary="FCM 토큰 업데이트",
-        parameters=[OpenApiParameter(name="fcm_token", description="FCM 토큰", required=True, type=str)]
+        tags=["인증"],
+        description="FCM 토큰을 업데이트합니다.",
+        parameters=[OpenApiParameter(name="fcm_token", description="FCM 토큰", required=True, type=str)],
+        request=inline_serializer(
+            name="FcmTokenUpdateRequest",
+            fields={"fcm_token": serializers.CharField()}
+        ),
+        responses={200: inline_serializer(
+            name="FcmTokenUpdateResponse",
+            fields={"message": serializers.CharField()}
+        )}
     )
     def post(self, request):
         fcm_token = request.data.get("fcm_token")

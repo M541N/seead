@@ -21,6 +21,18 @@ class BrandSerializer(serializers.ModelSerializer):
         fields = ['name', 'description']
 
 
+class AdvertiserDetailSerializer(serializers.ModelSerializer):
+    """
+    광고주 상세 정보 조회를 위한 Serializer
+    """
+    business_info = BusinessInfoSerializer(read_only=True)
+    outsourcing_companies = OutsourcingCompanySerializer(many=True, read_only=True)
+    brands = BrandSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Advertiser
+        fields = ['id', 'name', 'description', 'homepage_url', 'business_info', 'outsourcing_companies', 'brands']
+
 class AdvertiserUpdateSerializer(serializers.ModelSerializer):
     business_info = BusinessInfoSerializer()
     outsourcing_companies = OutsourcingCompanySerializer(many=True)

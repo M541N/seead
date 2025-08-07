@@ -1,42 +1,33 @@
 import 'package:dio/dio.dart';
-import '../storage_service.dart';
-import 'auth_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../generated/api_generated/SeeAD_API.swagger.dart';
 
-class DioClient {
-  static final Dio _dio = Dio(BaseOptions(
-    baseUrl: "http://localhost:8000/api",
-    connectTimeout: const Duration(seconds: 5),
-    receiveTimeout: const Duration(seconds: 5),
+final dioProvider = Provider((ref) {
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: "http://localhost:8000/api",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    ),
+  );
+
+  dio.interceptors.add(InterceptorsWrapper(
+    onRequest: (options, handler) async {
+      const storage = FlutterSecureStorage();
+      final accessToken = await storage.read(key: 'access_token');
+      if (accessToken != null) {
+        options.headers['Authorization'] = 'Bearer $accessToken';
+      }
+      return handler.next(options);
+    },
   ));
 
-  static Dio get client {
-    _dio.interceptors.clear();
+  return dio;
+});
 
-    _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        final token = await StorageService.getAccessToken();
-        if (token != null) {
-          options.headers['Authorization'] = 'Bearer $token';
-        }
-        return handler.next(options);
-      },
-      onError: (DioException e, handler) async {
-        if (e.response?.statusCode == 401) {
-          // Access Token 만료 시 Refresh 시도
-          final refreshToken = await StorageService.getRefreshToken();
-          if (refreshToken != null) {
-            final newAccess = await AuthRepository().refreshToken(refreshToken);
-
-            if (newAccess != null) {
-              e.requestOptions.headers['Authorization'] = 'Bearer $newAccess';
-              final cloneReq = await _dio.fetch(e.requestOptions);
-              return handler.resolve(cloneReq);
-            }
-          }
-        }
-        return handler.next(e);
-      },
-    ));
-    return _dio;
-  }
-}
+final seeAdApiProvider = Provider<SeeADAPI>((ref) {
+  final dio = ref.watch(dioProvider);
+  return SeeADAPI.create(baseUrl: Uri.parse("http://localhost:8000/api"), client: ChopperClient(client: dio));
+});

@@ -1,11 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../api/auth_repository.dart';
-import '../api/notification_repository.dart';
-import '../models/notification_model.dart';
-
-final authRepositoryProvider = Provider((ref) => AuthRepository());
-final userProvider = StateProvider<Map<String, dynamic>?>((ref) => null);
-final tokenProvider = StateProvider<String?>((ref) => null);
+import '../../../core/api/notification_repository.dart';
+import '../../../core/models/notification_model.dart';
 
 final notificationRepositoryProvider = Provider((ref) => NotificationRepository());
 
