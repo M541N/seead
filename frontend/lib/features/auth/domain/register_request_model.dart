@@ -9,10 +9,11 @@ part 'register_request_model.g.dart';
 class RegisterRequestModel with _$RegisterRequestModel {
   const factory RegisterRequestModel({
     required String username,
-    required String email, // UI에서는 필수로 처리 예정
+    required String email,
     required String password,
   }) = _RegisterRequestModel;
 
   factory RegisterRequestModel.fromJson(Map<String, dynamic> json) =>
       _$RegisterRequestModelFromJson(json);
 }
+

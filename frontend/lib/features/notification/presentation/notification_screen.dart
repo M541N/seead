@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../core/provider/providers.dart';
-
+import '../provider/notification_provider.dart';
 class NotificationScreen extends ConsumerWidget {
   const NotificationScreen({super.key});
 

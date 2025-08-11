@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
 
-import '../../core/provider/providers.dart';
-import '../../notification/notification_screen.dart';
+import '../../notification/presentation/notification_screen.dart';
 import '../reward/reward_screen.dart';
 import '../search/search_screen.dart';
 import '../profile/user_profile_screen.dart';

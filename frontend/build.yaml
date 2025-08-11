@@ -3,8 +3,8 @@ targets:
     builders:
       swagger_dart_code_generator:
         options:
-          input_folder: lib/swagger
-          output_folder: lib/core/api_generated
+          input_folder: "lib/openapi"
+          output_folder: "lib/core/api_generated"
           ignore_headers: true
           use_inheritance: false
           with_base_url: true

@@ -9,7 +9,7 @@ class AdRepository {
 
   Future<List<Ad>> getAds() async {
     try {
-      final response = await _api.apiAdGet();
+      final response = await _api.adsGet(); // <--- 오류 발생 지점
       if (response.isSuccessful && response.body != null) {
         return response.body!;
       }
