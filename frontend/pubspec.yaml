@@ -45,7 +45,7 @@ dependencies:
   json_annotation: ^4.9.0
   chopper: ^8.0.0
   go_router: ^16.1.0
-  freezed_annotation: ^3.1.0
+  freezed_annotation: ^2.4.4
 
 dev_dependencies:
   flutter_test:
@@ -57,24 +57,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-  build_runner: ^2.5.4
+  build_runner: ^2.4.9
   swagger_dart_code_generator: ^3.0.3
   chopper_generator: ^8.0.0
   json_serializable: ^6.6.1
-  freezed: ^3.1.0
+  freezed: ^2.5.8
   cached_network_image: ^3.4.1
-
-swagger_dart_code_generator:
-  input_folder: assets/openapi
-  output_folder: lib/core/api_generated/
-  build_swagger_chopper_client: true
-  build_only_models: false
-  use_path_for_request_names: true
-  include_tags: []
-  exclude_tags: []
-  include_paths: []
-  exclude_paths: []
-  default_base_url: "http://10.0.2.2:8000"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

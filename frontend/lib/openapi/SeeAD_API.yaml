@@ -340,9 +340,10 @@ paths:
   /api/auth/login/:
     post:
       operationId: api_auth_login_create
-      description: |-
-        Takes a set of user credentials and returns an access and refresh JSON web
-        token pair to prove the authentication of those credentials.
+      description: 'Takes a set of user credentials and returns an access and refresh
+        JSON web
+
+        token pair to prove the authentication of those credentials.'
       summary: 로그인
       tags:
       - 인증
@@ -456,9 +457,10 @@ paths:
   /api/auth/token/refresh/:
     post:
       operationId: api_auth_token_refresh_create
-      description: |-
-        Takes a refresh type JSON web token and returns an access type JSON web
-        token if the refresh token is valid.
+      description: 'Takes a refresh type JSON web token and returns an access type
+        JSON web
+
+        token if the refresh token is valid.'
       summary: 토큰 갱신
       tags:
       - 인증
@@ -760,8 +762,10 @@ paths:
               properties:
                 ad_id:
                   type: integer
+                  description: ad_id
                 point:
                   type: integer
+                  description: point
               required:
               - ad_id
               - point
@@ -810,30 +814,37 @@ components:
         id:
           type: integer
           readOnly: true
+          description: id
         title:
           type: string
           title: 광고 소재명
+          description: 광고 소재명
           maxLength: 255
         description:
           type: string
           title: 소재 설명
+          description: 소재 설명
         media:
           allOf:
           - $ref: '#/components/schemas/AdMedia'
           readOnly: true
+          description: media
         reward_point:
           type: integer
           maximum: 2147483647
           minimum: -2147483648
           title: 리워드 포인트
+          description: 리워드 포인트
         redirect_url:
           type: string
           format: uri
           title: 랜딩 URL
           maxLength: 200
+          description: 랜딩 URL
         liked:
           type: string
           readOnly: true
+          description: liked
       required:
       - id
       - liked
@@ -846,52 +857,61 @@ components:
         id:
           type: integer
           readOnly: true
+          description: id
         created_at:
           type: string
           format: date-time
           readOnly: true
           title: 생성일시
+          description: 생성일시
         updated_at:
           type: string
           format: date-time
           readOnly: true
           title: 수정일시
+          description: 수정일시
         name:
           type: string
           title: 캠페인명
           maxLength: 255
+          description: 캠페인명
         status:
           allOf:
           - $ref: '#/components/schemas/StatusEnum'
           title: 캠페인 상태
+          description: 캠페인 상태
         start_date:
           type: string
           format: date
           title: 캠페인 시작일
+          description: 캠페인 시작일
         end_date:
           type: string
           format: date
           title: 캠페인 종료일
+          description: 캠페인 종료일
         daily_budget:
           type: number
           format: double
           pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           nullable: true
           title: 일일 예산
+          description: 일일 예산
         total_budget:
           type: number
           format: double
           pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
           nullable: true
           title: 총 예산
+          description: 총 예산
         target_gender:
           type: string
           nullable: true
           description: "대상 성별. 'male', 'female', 'all' 중 하나"
           enum:
-            - male
-            - female
-            - all
+          - male
+          - female
+          - all
         target_age_min:
           type: integer
           maximum: 4294967295
@@ -899,6 +919,7 @@ components:
           format: int64
           nullable: true
           title: 타겟 최소 연령
+          description: 타겟 최소 연령
         target_age_max:
           type: integer
           maximum: 4294967295
@@ -906,28 +927,35 @@ components:
           format: int64
           nullable: true
           title: 타겟 최대 연령
+          description: 타겟 최대 연령
         seead_per_view:
           type: integer
           maximum: 4294967295
           minimum: 0
           format: int64
           title: 뷰당 지급 Seed
+          description: 뷰당 지급 Seed
         advertiser:
           type: integer
           readOnly: true
           title: 광고주
+          description: 광고주
         target_interests:
           type: array
           items:
             type: integer
             title: 타겟 관심사
+            description: 타겟 관심사
           title: 타겟 관심사
+          description: 타겟 관심사
         target_regions:
           type: array
           items:
             type: integer
             title: 타겟 지역
+            description: 타겟 지역
           title: 타겟 지역
+          description: 타겟 지역
       required:
       - advertiser
       - created_at
@@ -944,38 +972,44 @@ components:
           minLength: 1
           title: 캠페인명
           maxLength: 255
+          description: 캠페인명
         status:
           allOf:
           - $ref: '#/components/schemas/StatusEnum'
           title: 캠페인 상태
+          description: 캠페인 상태
         start_date:
           type: string
           format: date
           title: 캠페인 시작일
+          description: 캠페인 시작일
         end_date:
           type: string
           format: date
           title: 캠페인 종료일
+          description: 캠페인 종료일
         daily_budget:
           type: number
           format: double
           pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           nullable: true
           title: 일일 예산
+          description: 일일 예산
         total_budget:
           type: number
           format: double
           pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
           nullable: true
           title: 총 예산
+          description: 총 예산
         target_gender:
           type: string
           nullable: true
           description: "대상 성별. 'male', 'female', 'all' 중 하나"
           enum:
-            - male
-            - female
-            - all
+          - male
+          - female
+          - all
         target_age_min:
           type: integer
           maximum: 4294967295
@@ -983,6 +1017,7 @@ components:
           format: int64
           nullable: true
           title: 타겟 최소 연령
+          description: 타겟 최소 연령
         target_age_max:
           type: integer
           maximum: 4294967295
@@ -990,24 +1025,30 @@ components:
           format: int64
           nullable: true
           title: 타겟 최대 연령
+          description: 타겟 최대 연령
         seead_per_view:
           type: integer
           maximum: 4294967295
           minimum: 0
           format: int64
           title: 뷰당 지급 Seed
+          description: 뷰당 지급 Seed
         target_interests:
           type: array
           items:
             type: integer
             title: 타겟 관심사
+            description: 타겟 관심사
           title: 타겟 관심사
+          description: 타겟 관심사
         target_regions:
           type: array
           items:
             type: integer
             title: 타겟 지역
+            description: 타겟 지역
           title: 타겟 지역
+          description: 타겟 지역
       required:
       - end_date
       - name
@@ -1017,9 +1058,11 @@ components:
       properties:
         advertiser_id:
           type: integer
+          description: advertiser_id
         total_reward_based_cost:
           type: number
           format: double
+          description: total_reward_based_cost
       required:
       - advertiser_id
       - total_reward_based_cost
@@ -1028,6 +1071,7 @@ components:
       properties:
         ad_id:
           type: integer
+          description: ad_id
       required:
       - ad_id
     AdLikeCount:
@@ -1036,12 +1080,15 @@ components:
         id:
           type: integer
           readOnly: true
+          description: id
         title:
           type: string
           title: 광고 소재명
           maxLength: 255
+          description: 광고 소재명
         like_count:
           type: integer
+          description: like_count
       required:
       - id
       - like_count
@@ -1052,26 +1099,31 @@ components:
         id:
           type: integer
           readOnly: true
+          description: id
         media_url:
           type: string
           format: uri
           title: 미디어 URL (외부)
           maxLength: 200
+          description: 미디어 URL (외부)
         thumbnail_img:
           type: string
           format: uri
           nullable: true
           title: 썸네일 이미지
+          description: 썸네일 이미지
         video_file:
           type: string
           format: uri
           nullable: true
           title: 비디오 파일
+          description: 비디오 파일
         video_duration:
           type: integer
           maximum: 2147483647
           minimum: -2147483648
           title: 비디오 길이(초)
+          description: 비디오 길이(초)
       required:
       - id
       - media_url
@@ -1084,21 +1136,25 @@ components:
           minLength: 1
           title: 미디어 URL (외부)
           maxLength: 200
+          description: 미디어 URL (외부)
         thumbnail_img:
           type: string
           format: binary
           nullable: true
           title: 썸네일 이미지
+          description: 썸네일 이미지
         video_file:
           type: string
           format: binary
           nullable: true
           title: 비디오 파일
+          description: 비디오 파일
         video_duration:
           type: integer
           maximum: 2147483647
           minimum: -2147483648
           title: 비디오 길이(초)
+          description: 비디오 길이(초)
       required:
       - media_url
     AdMetricEventRequest:
@@ -1106,8 +1162,10 @@ components:
       properties:
         ad_id:
           type: integer
+          description: ad_id
         event_type:
           $ref: '#/components/schemas/EventTypeEnum'
+          description: event_type
       required:
       - ad_id
       - event_type
@@ -1117,6 +1175,7 @@ components:
         summary:
           type: object
           additionalProperties: {}
+          description: summary
       required:
       - summary
     AdRecommend:
@@ -1125,23 +1184,28 @@ components:
         id:
           type: integer
           readOnly: true
+          description: id
         title:
           type: string
           title: 광고 소재명
           maxLength: 255
+          description: 광고 소재명
         reward_point:
           type: integer
           maximum: 2147483647
           minimum: -2147483648
           title: 리워드 포인트
+          description: 리워드 포인트
         redirect_url:
           type: string
           format: uri
           title: 랜딩 URL
           maxLength: 200
+          description: 랜딩 URL
         media_url:
           type: string
           readOnly: true
+          description: media_url
       required:
       - id
       - media_url
@@ -1155,20 +1219,24 @@ components:
           minLength: 1
           title: 광고 소재명
           maxLength: 255
+          description: 광고 소재명
         description:
           type: string
           title: 소재 설명
+          description: 소재 설명
         reward_point:
           type: integer
           maximum: 2147483647
           minimum: -2147483648
           title: 리워드 포인트
+          description: 리워드 포인트
         redirect_url:
           type: string
           format: uri
           minLength: 1
           title: 랜딩 URL
           maxLength: 200
+          description: 랜딩 URL
       required:
       - redirect_url
       - title
@@ -1180,34 +1248,42 @@ components:
           minLength: 1
           title: 광고 소재명
           maxLength: 255
+          description: 광고 소재명
         description:
           type: string
           title: 소재 설명
+          description: 소재 설명
         reward_point:
           type: integer
           maximum: 2147483647
           minimum: -2147483648
           title: 리워드 포인트
+          description: 리워드 포인트
         redirect_url:
           type: string
           format: uri
           minLength: 1
           title: 랜딩 URL
           maxLength: 200
+          description: 랜딩 URL
         category:
           type: integer
           title: 카테고리
+          description: 카테고리
         brand:
           type: integer
           title: 브랜드
+          description: 브랜드
         video_file:
           type: string
           format: binary
           writeOnly: true
+          description: video_file
         thumbnail_img:
           type: string
           format: binary
           writeOnly: true
+          description: thumbnail_img
       required:
       - brand
       - category
@@ -1220,8 +1296,10 @@ components:
       properties:
         success:
           type: boolean
+          description: success
         ad_id:
           type: integer
+          description: ad_id
       required:
       - ad_id
       - success
@@ -1232,32 +1310,39 @@ components:
         id:
           type: integer
           readOnly: true
+          description: id
         name:
           type: string
           title: 광고주 / 회사명
           maxLength: 255
+          description: 광고주 / 회사명
         description:
           type: string
           title: 설명
+          description: 설명
         homepage_url:
           type: string
           format: uri
           title: 홈페이지 URL
           maxLength: 200
+          description: 홈페이지 URL
         business_info:
           allOf:
           - $ref: '#/components/schemas/BusinessInfo'
           readOnly: true
+          description: business_info
         outsourcing_companies:
           type: array
           items:
             $ref: '#/components/schemas/OutsourcingCompany'
           readOnly: true
+          description: outsourcing_companies
         brands:
           type: array
           items:
             $ref: '#/components/schemas/Brand'
           readOnly: true
+          description: brands
       required:
       - brands
       - business_info
@@ -1272,24 +1357,30 @@ components:
           minLength: 1
           title: 광고주 / 회사명
           maxLength: 255
+          description: 광고주 / 회사명
         description:
           type: string
           title: 설명
+          description: 설명
         homepage_url:
           type: string
           format: uri
           title: 홈페이지 URL
           maxLength: 200
+          description: 홈페이지 URL
         business_info:
           $ref: '#/components/schemas/BusinessInfoRequest'
+          description: business_info
         outsourcing_companies:
           type: array
           items:
             $ref: '#/components/schemas/OutsourcingCompanyRequest'
+            description: outsourcing_companies
         brands:
           type: array
           items:
             $ref: '#/components/schemas/BrandRequest'
+            description: brands
       required:
       - brands
       - business_info
@@ -1298,6 +1389,7 @@ components:
     BlankEnum:
       enum:
       - ''
+      description: BlankEnum
     Brand:
       type: object
       properties:
@@ -1305,9 +1397,11 @@ components:
           type: string
           title: 브랜드명
           maxLength: 255
+          description: 브랜드명
         description:
           type: string
           title: 설명
+          description: 설명
       required:
       - name
     BrandRequest:
@@ -1318,9 +1412,11 @@ components:
           minLength: 1
           title: 브랜드명
           maxLength: 255
+          description: 브랜드명
         description:
           type: string
           title: 설명
+          description: 설명
       required:
       - name
     BusinessInfo:
@@ -1330,32 +1426,39 @@ components:
           type: string
           title: 회사명
           maxLength: 50
+          description: 회사명
         company_name_en:
           type: string
           title: 회사명(영문)
           maxLength: 50
+          description: 회사명(영문)
         homepage_url:
           type: string
           title: 홈페이지URL
           maxLength: 1024
+          description: 홈페이지URL
         logo_url:
           type: string
           format: uri
           nullable: true
           title: 로고 이미지
+          description: 로고 이미지
         representative:
           type: string
           title: 대표자명
           maxLength: 50
+          description: 대표자명
         email:
           type: string
           format: email
           title: 이메일
           maxLength: 1024
+          description: 이메일
         phone_no:
           type: string
           title: 전화번호
           maxLength: 1024
+          description: 전화번호
       required:
       - company_name
     BusinessInfoRequest:
@@ -1366,37 +1469,44 @@ components:
           minLength: 1
           title: 회사명
           maxLength: 50
+          description: 회사명
         company_name_en:
           type: string
           minLength: 1
           title: 회사명(영문)
           maxLength: 50
+          description: 회사명(영문)
         homepage_url:
           type: string
           minLength: 1
           title: 홈페이지URL
           maxLength: 1024
+          description: 홈페이지URL
         logo_url:
           type: string
           format: binary
           nullable: true
           title: 로고 이미지
+          description: 로고 이미지
         representative:
           type: string
           minLength: 1
           title: 대표자명
           maxLength: 50
+          description: 대표자명
         email:
           type: string
           format: email
           minLength: 1
           title: 이메일
           maxLength: 1024
+          description: 이메일
         phone_no:
           type: string
           minLength: 1
           title: 전화번호
           maxLength: 1024
+          description: 전화번호
       required:
       - company_name
     CampaignBudgetChargeRequest:
@@ -1406,6 +1516,7 @@ components:
           type: number
           format: double
           pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+          description: amount
       required:
       - amount
     CampaignDurationExtendRequest:
@@ -1414,6 +1525,7 @@ components:
         new_end_date:
           type: string
           format: date
+          description: new_end_date
       required:
       - new_end_date
     ErrorResponse:
@@ -1421,8 +1533,10 @@ components:
       properties:
         success:
           type: boolean
+          description: success
         error:
           type: string
+          description: error
       required:
       - error
       - success
@@ -1431,8 +1545,10 @@ components:
       properties:
         success:
           type: boolean
+          description: success
         message:
           type: string
+          description: message
       required:
       - message
       - success
@@ -1444,13 +1560,16 @@ components:
       type: string
       description: |-
         * `view` - view
+
         * `click` - click
+
         * `conversion` - conversion
     LikeCountResponse:
       type: object
       properties:
         like_count:
           type: integer
+          description: like_count
       required:
       - like_count
     LoginRequest:
@@ -1459,12 +1578,15 @@ components:
         username:
           type: string
           minLength: 1
+          description: username
         password:
           type: string
           writeOnly: true
           minLength: 1
+          description: password
         fcm_token:
           type: string
+          description: fcm_token
       required:
       - password
       - username
@@ -1473,10 +1595,13 @@ components:
       properties:
         access:
           type: string
+          description: access
         refresh:
           type: string
+          description: refresh
         user:
           $ref: '#/components/schemas/UserInfo'
+          description: user
       required:
       - access
       - refresh
@@ -1487,6 +1612,7 @@ components:
         refresh:
           type: string
           minLength: 1
+          description: refresh
       required:
       - refresh
     LogoutResponse:
@@ -1494,8 +1620,10 @@ components:
       properties:
         success:
           type: boolean
+          description: success
         message:
           type: string
+          description: message
       required:
       - message
       - success
@@ -1504,11 +1632,9 @@ components:
       properties:
         error:
           type: string
+          description: error
       required:
       - error
-#    NullEnum:
-#      enum:
-#      - null
     OutsourcingCompany:
       type: object
       properties:
@@ -1516,9 +1642,11 @@ components:
           type: string
           title: 아웃소싱 회사명
           maxLength: 255
+          description: 아웃소싱 회사명
         description:
           type: string
           title: 설명
+          description: 설명
       required:
       - name
     OutsourcingCompanyRequest:
@@ -1529,9 +1657,11 @@ components:
           minLength: 1
           title: 아웃소싱 회사명
           maxLength: 255
+          description: 아웃소싱 회사명
         description:
           type: string
           title: 설명
+          description: 설명
       required:
       - name
     PatchedAdCampaignRequest:
@@ -1542,38 +1672,44 @@ components:
           minLength: 1
           title: 캠페인명
           maxLength: 255
+          description: 캠페인명
         status:
           allOf:
           - $ref: '#/components/schemas/StatusEnum'
           title: 캠페인 상태
+          description: 캠페인 상태
         start_date:
           type: string
           format: date
           title: 캠페인 시작일
+          description: 캠페인 시작일
         end_date:
           type: string
           format: date
           title: 캠페인 종료일
+          description: 캠페인 종료일
         daily_budget:
           type: number
           format: double
           pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           nullable: true
           title: 일일 예산
+          description: 일일 예산
         total_budget:
           type: number
           format: double
           pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
           nullable: true
           title: 총 예산
+          description: 총 예산
         target_gender:
           type: string
           nullable: true
           description: "대상 성별. 'male', 'female', 'all' 중 하나"
           enum:
-            - male
-            - female
-            - all
+          - male
+          - female
+          - all
         target_age_min:
           type: integer
           maximum: 4294967295
@@ -1581,6 +1717,7 @@ components:
           format: int64
           nullable: true
           title: 타겟 최소 연령
+          description: 타겟 최소 연령
         target_age_max:
           type: integer
           maximum: 4294967295
@@ -1588,42 +1725,52 @@ components:
           format: int64
           nullable: true
           title: 타겟 최대 연령
+          description: 타겟 최대 연령
         seead_per_view:
           type: integer
           maximum: 4294967295
           minimum: 0
           format: int64
           title: 뷰당 지급 Seed
+          description: 뷰당 지급 Seed
         target_interests:
           type: array
           items:
             type: integer
             title: 타겟 관심사
+            description: 타겟 관심사
           title: 타겟 관심사
+          description: 타겟 관심사
         target_regions:
           type: array
           items:
             type: integer
             title: 타겟 지역
+            description: 타겟 지역
           title: 타겟 지역
+          description: 타겟 지역
     RewardHistory:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
+          description: id
         ad_title:
           type: string
           readOnly: true
+          description: ad_title
         points:
           type: integer
           maximum: 2147483647
           minimum: -2147483648
+          description: points
         created_at:
           type: string
           format: date-time
           readOnly: true
           title: 지급일시
+          description: 지급일시
       required:
       - ad_title
       - created_at
@@ -1634,10 +1781,13 @@ components:
       properties:
         available_seed:
           type: integer
+          description: available_seed
         today_claimed:
           type: integer
+          description: today_claimed
         daily_limit:
           type: integer
+          description: daily_limit
       required:
       - available_seed
       - daily_limit
@@ -1658,11 +1808,13 @@ components:
           minLength: 1
           title: 비밀번호
           maxLength: 128
+          description: 비밀번호
         email:
           type: string
           format: email
           title: 이메일 주소
           maxLength: 254
+          description: 이메일 주소
       required:
       - password
       - username
@@ -1671,8 +1823,10 @@ components:
       properties:
         success:
           type: boolean
+          description: success
         user:
           $ref: '#/components/schemas/UserInfo'
+          description: user
       required:
       - success
       - user
@@ -1689,20 +1843,29 @@ components:
       type: string
       description: |-
         * `DRAFT` - 임시저장
+
         * `PENDING_REVIEW` - 검토중
+
         * `SCHEDULED` - 예약됨
+
         * `OPERATING` - 운영 중
+
         * `PAUSED` - 일시중지
+
         * `ENDED` - 종료됨
+
         * `COMPLETED` - 완료됨
+
         * `REJECTED` - 거부됨
     SuccessMessageResponse:
       type: object
       properties:
         success:
           type: boolean
+          description: success
         message:
           type: string
+          description: message
       required:
       - message
       - success
@@ -1713,16 +1876,20 @@ components:
       type: string
       description: |-
         * `Male` - 남성
+
         * `Female` - 여성
     ToggleLikeResponse:
       type: object
       properties:
         success:
           type: boolean
+          description: success
         liked:
           type: boolean
+          description: liked
         ad_id:
           type: integer
+          description: ad_id
       required:
       - ad_id
       - liked
@@ -1733,8 +1900,10 @@ components:
         access:
           type: string
           readOnly: true
+          description: access
         refresh:
           type: string
+          description: refresh
       required:
       - access
       - refresh
@@ -1744,6 +1913,7 @@ components:
         refresh:
           type: string
           minLength: 1
+          description: refresh
       required:
       - refresh
     UserInfo:
@@ -1752,6 +1922,7 @@ components:
         id:
           type: integer
           readOnly: true
+          description: id
         username:
           type: string
           title: 사용자 이름
@@ -1763,6 +1934,7 @@ components:
           format: email
           title: 이메일 주소
           maxLength: 254
+          description: 이메일 주소
       required:
       - id
       - username
@@ -1771,3 +1943,8 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+servers:
+- url: http://10.0.2.2:8000
+  description: Android emulator (host machine)
+- url: http://localhost:8000
+  description: Localhost (web client)

@@ -4,7 +4,7 @@ import 'package:chopper/chopper.dart';
 import 'package:dio/dio.dart' as dio_package;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../generated/api_generated/SeeAD_API.swagger.dart';
+import '../api_generated/SeeAD_API.swagger.dart';
 
 // --- 새로운 Chopper 8.0.0 스타일 인터셉터 클래스 정의 ---
 class AuthInterceptor implements Interceptor {

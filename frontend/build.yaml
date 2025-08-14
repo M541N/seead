@@ -9,5 +9,3 @@ targets:
           use_inheritance: false
           with_base_url: true
           default_nulls: true
-          include_paths:
-            - SeeAD_API.yaml

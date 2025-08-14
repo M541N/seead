@@ -34,10 +34,10 @@ class AdDetailScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                if (ad.imageUrl != null && ad.imageUrl!.isNotEmpty)
+                if (ad.thumbnailUrl != null && ad.thumbnailUrl!.isNotEmpty)
                   Center(
                     child: CachedNetworkImage(
-                      imageUrl: ad.imageUrl!,
+                      imageUrl: ad.thumbnailUrl!,
                       placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                       errorWidget: (context, url, error) => const Icon(Icons.broken_image, size: 100),
                       fit: BoxFit.contain, // 이미지가 잘리지 않고 전체가 보이도록

@@ -48,6 +48,518 @@ abstract class SeeADAPI extends ChopperService {
     );
     return _$SeeADAPI(newClient);
   }
+
+  ///광고 상세 조회
+  ///@param id
+  Future<chopper.Response<Ad>> apiAdIdGet({required int? id}) {
+    generatedMapping.putIfAbsent(Ad, () => Ad.fromJsonFactory);
+
+    return _apiAdIdGet(id: id);
+  }
+
+  ///광고 상세 조회
+  ///@param id
+  @GET(path: '/api/ad/{id}/')
+  Future<chopper.Response<Ad>> _apiAdIdGet({@Path('id') required int? id});
+
+  ///광고 좋아요 토글
+  ///@param id
+  Future<chopper.Response<ToggleLikeResponse>> apiAdIdLikePost({
+    required int? id,
+    required AdRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      ToggleLikeResponse,
+      () => ToggleLikeResponse.fromJsonFactory,
+    );
+
+    return _apiAdIdLikePost(id: id, body: body);
+  }
+
+  ///광고 좋아요 토글
+  ///@param id
+  @POST(path: '/api/ad/{id}/like/', optionalBody: true)
+  Future<chopper.Response<ToggleLikeResponse>> _apiAdIdLikePost({
+    @Path('id') required int? id,
+    @Body() required AdRequest? body,
+  });
+
+  ///특정 광고의 좋아요 수 조회
+  ///@param id
+  Future<chopper.Response<LikeCountResponse>> apiAdIdLikesGet({
+    required int? id,
+  }) {
+    generatedMapping.putIfAbsent(
+      LikeCountResponse,
+      () => LikeCountResponse.fromJsonFactory,
+    );
+
+    return _apiAdIdLikesGet(id: id);
+  }
+
+  ///특정 광고의 좋아요 수 조회
+  ///@param id
+  @GET(path: '/api/ad/{id}/likes/')
+  Future<chopper.Response<LikeCountResponse>> _apiAdIdLikesGet({
+    @Path('id') required int? id,
+  });
+
+  ///광고주 리워드 기반 광고비 총액 조회
+  Future<chopper.Response<AdCostSummaryResponse>> apiAdCostSummaryGet() {
+    generatedMapping.putIfAbsent(
+      AdCostSummaryResponse,
+      () => AdCostSummaryResponse.fromJsonFactory,
+    );
+
+    return _apiAdCostSummaryGet();
+  }
+
+  ///광고주 리워드 기반 광고비 총액 조회
+  @GET(path: '/api/ad/cost-summary/')
+  Future<chopper.Response<AdCostSummaryResponse>> _apiAdCostSummaryGet();
+
+  ///광고 시청/클릭/전환 실시간 기록
+  Future<chopper.Response<EventRecordResponse>> apiAdEventPost({
+    required AdMetricEventRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      EventRecordResponse,
+      () => EventRecordResponse.fromJsonFactory,
+    );
+
+    return _apiAdEventPost(body: body);
+  }
+
+  ///광고 시청/클릭/전환 실시간 기록
+  @POST(path: '/api/ad/event/', optionalBody: true)
+  Future<chopper.Response<EventRecordResponse>> _apiAdEventPost({
+    @Body() required AdMetricEventRequest? body,
+  });
+
+  ///광고 노출 감지 및 Redis 저장
+  Future<chopper.Response<SuccessMessageResponse>> apiAdExposePost({
+    required AdExposeRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      SuccessMessageResponse,
+      () => SuccessMessageResponse.fromJsonFactory,
+    );
+
+    return _apiAdExposePost(body: body);
+  }
+
+  ///광고 노출 감지 및 Redis 저장
+  @POST(path: '/api/ad/expose/', optionalBody: true)
+  Future<chopper.Response<SuccessMessageResponse>> _apiAdExposePost({
+    @Body() required AdExposeRequest? body,
+  });
+
+  ///광고 리스트 조회
+  Future<chopper.Response<List<Ad>>> apiAdListGet() {
+    generatedMapping.putIfAbsent(Ad, () => Ad.fromJsonFactory);
+
+    return _apiAdListGet();
+  }
+
+  ///광고 리스트 조회
+  @GET(path: '/api/ad/list/')
+  Future<chopper.Response<List<Ad>>> _apiAdListGet();
+
+  ///시청 이력 기반 추천 광고 조회
+  Future<chopper.Response<List<AdRecommend>>> apiAdRecommendGet() {
+    generatedMapping.putIfAbsent(
+      AdRecommend,
+      () => AdRecommend.fromJsonFactory,
+    );
+
+    return _apiAdRecommendGet();
+  }
+
+  ///시청 이력 기반 추천 광고 조회
+  @GET(path: '/api/ad/recommend/')
+  Future<chopper.Response<List<AdRecommend>>> _apiAdRecommendGet();
+
+  ///광고 성과 요약 조회
+  Future<chopper.Response<AdPerformanceSummaryResponse>> apiAdSummaryGet() {
+    generatedMapping.putIfAbsent(
+      AdPerformanceSummaryResponse,
+      () => AdPerformanceSummaryResponse.fromJsonFactory,
+    );
+
+    return _apiAdSummaryGet();
+  }
+
+  ///광고 성과 요약 조회
+  @GET(path: '/api/ad/summary/')
+  Future<chopper.Response<AdPerformanceSummaryResponse>> _apiAdSummaryGet();
+
+  ///좋아요 많은 광고 Top10 조회
+  Future<chopper.Response<List<AdLikeCount>>> apiAdTopLikedGet() {
+    generatedMapping.putIfAbsent(
+      AdLikeCount,
+      () => AdLikeCount.fromJsonFactory,
+    );
+
+    return _apiAdTopLikedGet();
+  }
+
+  ///좋아요 많은 광고 Top10 조회
+  @GET(path: '/api/ad/top-liked/')
+  Future<chopper.Response<List<AdLikeCount>>> _apiAdTopLikedGet();
+
+  ///광고 등록 (영상 업로드)
+  Future<chopper.Response<AdUploadResponse>> apiAdUploadPost({
+    required AdUploadRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      AdUploadResponse,
+      () => AdUploadResponse.fromJsonFactory,
+    );
+
+    return _apiAdUploadPost(body: body);
+  }
+
+  ///광고 등록 (영상 업로드)
+  @POST(path: '/api/ad/upload/', optionalBody: true)
+  Future<chopper.Response<AdUploadResponse>> _apiAdUploadPost({
+    @Body() required AdUploadRequest? body,
+  });
+
+  ///광고주 정보 조회
+  Future<chopper.Response<AdvertiserDetail>> apiAdvertiserMeGet() {
+    generatedMapping.putIfAbsent(
+      AdvertiserDetail,
+      () => AdvertiserDetail.fromJsonFactory,
+    );
+
+    return _apiAdvertiserMeGet();
+  }
+
+  ///광고주 정보 조회
+  @GET(path: '/api/advertiser/me/')
+  Future<chopper.Response<AdvertiserDetail>> _apiAdvertiserMeGet();
+
+  ///광고주 정보 수정
+  Future<chopper.Response<AdvertiserDetail>> apiAdvertiserMeUpdatePut({
+    required AdvertiserUpdateRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      AdvertiserDetail,
+      () => AdvertiserDetail.fromJsonFactory,
+    );
+
+    return _apiAdvertiserMeUpdatePut(body: body);
+  }
+
+  ///광고주 정보 수정
+  @PUT(path: '/api/advertiser/me/update/', optionalBody: true)
+  Future<chopper.Response<AdvertiserDetail>> _apiAdvertiserMeUpdatePut({
+    @Body() required AdvertiserUpdateRequest? body,
+  });
+
+  ///로그인
+  Future<chopper.Response<LoginResponse>> apiAuthLoginPost({
+    required LoginRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      LoginResponse,
+      () => LoginResponse.fromJsonFactory,
+    );
+
+    return _apiAuthLoginPost(body: body);
+  }
+
+  ///로그인
+  @POST(path: '/api/auth/login/', optionalBody: true)
+  Future<chopper.Response<LoginResponse>> _apiAuthLoginPost({
+    @Body() required LoginRequest? body,
+  });
+
+  ///로그아웃
+  Future<chopper.Response<LogoutResponse>> apiAuthLogoutPost({
+    required LogoutRequestRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      LogoutResponse,
+      () => LogoutResponse.fromJsonFactory,
+    );
+
+    return _apiAuthLogoutPost(body: body);
+  }
+
+  ///로그아웃
+  @POST(path: '/api/auth/logout/', optionalBody: true)
+  Future<chopper.Response<LogoutResponse>> _apiAuthLogoutPost({
+    @Body() required LogoutRequestRequest? body,
+  });
+
+  ///내 정보 조회
+  Future<chopper.Response<UserInfo>> apiAuthMeGet() {
+    generatedMapping.putIfAbsent(UserInfo, () => UserInfo.fromJsonFactory);
+
+    return _apiAuthMeGet();
+  }
+
+  ///내 정보 조회
+  @GET(path: '/api/auth/me/')
+  Future<chopper.Response<UserInfo>> _apiAuthMeGet();
+
+  ///회원가입
+  Future<chopper.Response<SignupResponse>> apiAuthSignupPost({
+    required SignupRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      SignupResponse,
+      () => SignupResponse.fromJsonFactory,
+    );
+
+    return _apiAuthSignupPost(body: body);
+  }
+
+  ///회원가입
+  @POST(path: '/api/auth/signup/', optionalBody: true)
+  Future<chopper.Response<SignupResponse>> _apiAuthSignupPost({
+    @Body() required SignupRequest? body,
+  });
+
+  ///토큰 갱신
+  Future<chopper.Response<TokenRefresh>> apiAuthTokenRefreshPost({
+    required TokenRefreshRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      TokenRefresh,
+      () => TokenRefresh.fromJsonFactory,
+    );
+
+    return _apiAuthTokenRefreshPost(body: body);
+  }
+
+  ///토큰 갱신
+  @POST(path: '/api/auth/token/refresh/', optionalBody: true)
+  Future<chopper.Response<TokenRefresh>> _apiAuthTokenRefreshPost({
+    @Body() required TokenRefreshRequest? body,
+  });
+
+  ///
+  Future<chopper.Response<List<AdCampaign>>> apiCampaignGet() {
+    generatedMapping.putIfAbsent(AdCampaign, () => AdCampaign.fromJsonFactory);
+
+    return _apiCampaignGet();
+  }
+
+  ///
+  @GET(path: '/api/campaign/')
+  Future<chopper.Response<List<AdCampaign>>> _apiCampaignGet();
+
+  ///캠페인 상세 조회
+  ///@param id
+  Future<chopper.Response<AdCampaign>> apiCampaignIdGet({required int? id}) {
+    generatedMapping.putIfAbsent(AdCampaign, () => AdCampaign.fromJsonFactory);
+
+    return _apiCampaignIdGet(id: id);
+  }
+
+  ///캠페인 상세 조회
+  ///@param id
+  @GET(path: '/api/campaign/{id}/')
+  Future<chopper.Response<AdCampaign>> _apiCampaignIdGet({
+    @Path('id') required int? id,
+  });
+
+  ///캠페인 예산 충전 (완료 상태 복구 포함)
+  ///@param id
+  Future<chopper.Response> apiCampaignIdChargeBudgetPost({
+    required int? id,
+    required CampaignBudgetChargeRequest? body,
+  }) {
+    return _apiCampaignIdChargeBudgetPost(id: id, body: body);
+  }
+
+  ///캠페인 예산 충전 (완료 상태 복구 포함)
+  ///@param id
+  @POST(path: '/api/campaign/{id}/charge-budget/', optionalBody: true)
+  Future<chopper.Response> _apiCampaignIdChargeBudgetPost({
+    @Path('id') required int? id,
+    @Body() required CampaignBudgetChargeRequest? body,
+  });
+
+  ///
+  ///@param id
+  Future<chopper.Response<AdCampaign>> apiCampaignIdEditGet({
+    required int? id,
+  }) {
+    generatedMapping.putIfAbsent(AdCampaign, () => AdCampaign.fromJsonFactory);
+
+    return _apiCampaignIdEditGet(id: id);
+  }
+
+  ///
+  ///@param id
+  @GET(path: '/api/campaign/{id}/edit/')
+  Future<chopper.Response<AdCampaign>> _apiCampaignIdEditGet({
+    @Path('id') required int? id,
+  });
+
+  ///캠페인 수정
+  ///@param id
+  Future<chopper.Response<AdCampaign>> apiCampaignIdEditPut({
+    required int? id,
+    required AdCampaignRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(AdCampaign, () => AdCampaign.fromJsonFactory);
+
+    return _apiCampaignIdEditPut(id: id, body: body);
+  }
+
+  ///캠페인 수정
+  ///@param id
+  @PUT(path: '/api/campaign/{id}/edit/', optionalBody: true)
+  Future<chopper.Response<AdCampaign>> _apiCampaignIdEditPut({
+    @Path('id') required int? id,
+    @Body() required AdCampaignRequest? body,
+  });
+
+  ///
+  ///@param id
+  Future<chopper.Response<AdCampaign>> apiCampaignIdEditPatch({
+    required int? id,
+    required PatchedAdCampaignRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(AdCampaign, () => AdCampaign.fromJsonFactory);
+
+    return _apiCampaignIdEditPatch(id: id, body: body);
+  }
+
+  ///
+  ///@param id
+  @PATCH(path: '/api/campaign/{id}/edit/', optionalBody: true)
+  Future<chopper.Response<AdCampaign>> _apiCampaignIdEditPatch({
+    @Path('id') required int? id,
+    @Body() required PatchedAdCampaignRequest? body,
+  });
+
+  ///캠페인 삭제
+  ///@param id
+  Future<chopper.Response> apiCampaignIdEditDelete({required int? id}) {
+    return _apiCampaignIdEditDelete(id: id);
+  }
+
+  ///캠페인 삭제
+  ///@param id
+  @DELETE(path: '/api/campaign/{id}/edit/')
+  Future<chopper.Response> _apiCampaignIdEditDelete({
+    @Path('id') required int? id,
+  });
+
+  ///캠페인 종료일 연장
+  ///@param id
+  Future<chopper.Response> apiCampaignIdExtendDurationPost({
+    required int? id,
+    required CampaignDurationExtendRequest? body,
+  }) {
+    return _apiCampaignIdExtendDurationPost(id: id, body: body);
+  }
+
+  ///캠페인 종료일 연장
+  ///@param id
+  @POST(path: '/api/campaign/{id}/extend-duration/', optionalBody: true)
+  Future<chopper.Response> _apiCampaignIdExtendDurationPost({
+    @Path('id') required int? id,
+    @Body() required CampaignDurationExtendRequest? body,
+  });
+
+  ///캠페인 로그 조회 (예산/상태 변경)
+  ///@param id
+  Future<chopper.Response> apiCampaignIdLogsGet({required int? id}) {
+    return _apiCampaignIdLogsGet(id: id);
+  }
+
+  ///캠페인 로그 조회 (예산/상태 변경)
+  ///@param id
+  @GET(path: '/api/campaign/{id}/logs/')
+  Future<chopper.Response> _apiCampaignIdLogsGet({
+    @Path('id') required int? id,
+  });
+
+  ///
+  Future<chopper.Response<AdCampaign>> apiCampaignCreatePost({
+    required AdCampaignRequest? body,
+  }) {
+    generatedMapping.putIfAbsent(AdCampaign, () => AdCampaign.fromJsonFactory);
+
+    return _apiCampaignCreatePost(body: body);
+  }
+
+  ///
+  @POST(path: '/api/campaign/create/', optionalBody: true)
+  Future<chopper.Response<AdCampaign>> _apiCampaignCreatePost({
+    @Body() required AdCampaignRequest? body,
+  });
+
+  ///내 알림 목록 조회
+  Future<chopper.Response> apiNotificationsGet() {
+    return _apiNotificationsGet();
+  }
+
+  ///내 알림 목록 조회
+  @GET(path: '/api/notifications/')
+  Future<chopper.Response> _apiNotificationsGet();
+
+  ///FCM 토큰 업데이트
+  ///@param fcm_token FCM 토큰
+  Future<chopper.Response> apiProfileFcmUpdatePost({
+    required String? fcmToken,
+  }) {
+    return _apiProfileFcmUpdatePost(fcmToken: fcmToken);
+  }
+
+  ///FCM 토큰 업데이트
+  ///@param fcm_token FCM 토큰
+  @POST(path: '/api/profile/fcm/update/', optionalBody: true)
+  Future<chopper.Response> _apiProfileFcmUpdatePost({
+    @Query('fcm_token') required String? fcmToken,
+  });
+
+  ///리워드 지급 요청
+  Future<chopper.Response> apiRewardClaimPost({
+    required ApiRewardClaimPost$RequestBody? body,
+  }) {
+    return _apiRewardClaimPost(body: body);
+  }
+
+  ///리워드 지급 요청
+  @POST(path: '/api/reward/claim/', optionalBody: true)
+  Future<chopper.Response> _apiRewardClaimPost({
+    @Body() required ApiRewardClaimPost$RequestBody? body,
+  });
+
+  ///리워드 지급 이력 조회
+  Future<chopper.Response<List<RewardHistory>>> apiRewardHistoryGet() {
+    generatedMapping.putIfAbsent(
+      RewardHistory,
+      () => RewardHistory.fromJsonFactory,
+    );
+
+    return _apiRewardHistoryGet();
+  }
+
+  ///리워드 지급 이력 조회
+  @GET(path: '/api/reward/history/')
+  Future<chopper.Response<List<RewardHistory>>> _apiRewardHistoryGet();
+
+  ///리워드 상태 조회
+  Future<chopper.Response<RewardStatus>> apiRewardStatusGet() {
+    generatedMapping.putIfAbsent(
+      RewardStatus,
+      () => RewardStatus.fromJsonFactory,
+    );
+
+    return _apiRewardStatusGet();
+  }
+
+  ///리워드 상태 조회
+  @GET(path: '/api/reward/status/')
+  Future<chopper.Response<RewardStatus>> _apiRewardStatusGet();
 }
 
 @JsonSerializable(explicitToJson: true)

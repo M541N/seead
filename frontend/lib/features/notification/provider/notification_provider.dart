@@ -1,7 +1,8 @@
+import 'package:dio/src/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/notification_repository.dart';
 import '../data/model/notification_model.dart';
-final notificationRepositoryProvider = Provider((ref) => NotificationRepository());
+final notificationRepositoryProvider = Provider((ref) => NotificationRepository(ref as Dio));
 
 final notificationsProvider = StateNotifierProvider<NotificationsNotifier, List<NotificationModel>>((ref) {
   return NotificationsNotifier(ref.read(notificationRepositoryProvider));

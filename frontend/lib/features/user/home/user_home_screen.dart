@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:frontend/features/notification/provider/notification_provider.dart';
 
 import '../../notification/presentation/notification_screen.dart';
 import '../reward/reward_screen.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/provider/providers.dart';
-import '../../notification/notification_screen.dart';
+import 'package:frontend/features/notification/provider/notification_provider.dart';
+import '../../notification/presentation/notification_screen.dart';
 
 class AdvertiserDashboardScreen extends ConsumerStatefulWidget {
   const AdvertiserDashboardScreen({super.key});

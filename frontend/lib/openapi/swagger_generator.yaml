@@ -1,6 +1,0 @@
-input_folder: "openapi"        # OpenAPI spec 경로
-output_folder: "lib/core/api_generated" # 결과물 저장 경로
-enums_case_sensitive: false
-use_path_for_request_names: true
-include_paths:
-  - "/api"

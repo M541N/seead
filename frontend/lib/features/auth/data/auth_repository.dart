@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/dio_client.dart';
 import '../../../core/storage/storage_service.dart';
-import '../../../generated/api_generated/SeeAD_API.swagger.dart';
+import '../../../core/api_generated/SeeAD_API.swagger.dart';
 
 class AuthRepository {
   final SeeADAPI _api;
@@ -33,7 +33,7 @@ class AuthRepository {
       );
       if (response.isSuccessful && response.body != null) {
         final newAccess = response.body!.access;
-        await StorageService.saveTokens(newAccess, refreshToken);
+        await StorageService.saveTokens(newAccess!, refreshToken);
         return newAccess;
       }
       return null;
@@ -46,7 +46,7 @@ class AuthRepository {
     try {
       final response = await _api.apiAuthMeGet();
       if (response.isSuccessful && response.body != null) {
-        return response.body!.user.toJson();
+        return response.body!.toJson();
       }
       return null;
     } catch (e) {
