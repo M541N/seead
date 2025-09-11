@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     
     'drf_spectacular',
     'corsheaders',
@@ -137,6 +138,10 @@ DATABASES = {
         'PASSWORD' : os.getenv('DB_PASSWORD'),
         'HOST' : os.getenv('DB_HOST'),
         'PORT' : os.getenv('DB_PORT'),
+        "OPTIONS" : {
+            "charset" : os.getenv('DB_CHARSET', default="utf8mb4"),
+            "init_command" : f"SET NAMES 'utf8mb4' COLLATE '{os.getenv('DB_COLLATION', default='utf8mb4_general_ci')}';",
+        }
     }
 }
 
@@ -183,6 +188,8 @@ FIXTURE_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'system_manage.User'
+
 # Django REST Framework 설정
 REST_FRAMEWORK = {
     # API 문서화 스키마 자동 생성
@@ -214,13 +221,13 @@ SPECTACULAR_SETTINGS = {
 # CORS 설정 (Cross-Origin Resource Sharing)
 # 웹 프론트엔드 주소와 앱 스킴(Scheme)을 허용
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", # 예: React 개발 서버
-    "http://127.0.0.1:3000",
+    "http://localhost:8000", # 예: React 개발 서버
+    "http://127.0.0.1:8000",
     "https://your-web-domain.com",
 ]
 # Flutter 앱의 경우 특정 Origin이 없으므로, 필요에 따라 정규식 또는 패턴을 사용
 CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^https://.*\.your-app-domain\.com$",
+    r"^https://.*127.0.0.1:8000$",
     r"^capacitor://.*$",
     r"^flutter-app://.*$", # 가상의 스킴, 실제 앱 환경에 맞게 조정 필요
 ]
@@ -230,7 +237,7 @@ REST_USE_JWT = True
 # 추가적인 jwt_auth 설정
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": True,  # Refresh Token 회전 활성화
     "BLACKLIST_AFTER_ROTATION": True, # 사용된 Refresh Token을 블랙리스트에 추가
     "UPDATE_LAST_LOGIN": False,

@@ -5,6 +5,7 @@ from api.views.auth_views import (
     TokenRefreshView,
     LogoutView,
     UserInfoView,
+    WithdrawalView,
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("me/", UserInfoView.as_view(), name="user_info"),
+    path("withdrawal/", WithdrawalView.as_view(), name="withdrawal"),
 ]

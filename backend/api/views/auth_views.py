@@ -1,15 +1,19 @@
+from django.utils import timezone
 from rest_framework import status, permissions, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView as SimpleJWTRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
-from drf_spectacular.utils import extend_schema, OpenApiExample, inline_serializer
+from drf_spectacular.utils import extend_schema, OpenApiExample, inline_serializer, OpenApiResponse
+
+from api.services.auth_service import AuthService
 
 from api.serializers.auth_serializers import (
     SignupSerializer,
     CustomTokenObtainPairSerializer,
     UserInfoSerializer,
-    LoginSerializer
+    LoginSerializer,
+    WithdrawalSerializer
 )
 from api.schemas.auth_schemas import LoginResponseSchema, SignupResponseSchema, LogoutResponseSchema
 from api.schemas.common_schemas import ErrorResponseSchema
@@ -52,11 +56,11 @@ class LoginView(TokenObtainPairView):
         user = serializer.validated_data["user"]
 
         # ✅ FCM 토큰 업데이트
-        fcm_token = serializer.validated_data.get("fcm_token")
-        if fcm_token:
-            profile = user.profile
-            profile.fcm_token = fcm_token
-            profile.save()
+        # fcm_token = serializer.validated_data.get("fcm_token")
+        # if fcm_token:
+        #     profile = user.profile
+        #     profile.fcm_token = fcm_token
+        #     profile.save()
 
         # JWT 발급
         response = super().post(request, *args, **kwargs)
@@ -74,7 +78,7 @@ class TokenRefreshView(SimpleJWTRefreshView):
 
 # 로그아웃
 class LogoutView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     @extend_schema(
         tags=["인증"],
@@ -108,5 +112,21 @@ class UserInfoView(APIView):
     )
     def get(self, request):
         data = UserInfoSerializer(request.user).data
-        data["fcm_token"] = request.user.profile.fcm_token
+        # data["fcm_token"] = request.user.profile.fcm_token
         return Response({"success": True, "user": data})
+
+# 회원 탈퇴
+class WithdrawalView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    @extend_schema(
+        tags=["인증"],
+        summary="회원 탈퇴",
+        request=None,
+        responses={
+            204: OpenApiResponse(description="회원 탈퇴 성공"),
+        }
+    )
+    def post(self, request):
+        AuthService.withdraw_user(request.user, soft_delete=True)
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -1,7 +1,9 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from django.contrib.auth import authenticate, get_user_model
+
+User = get_user_model()
 
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,3 +41,10 @@ class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "email"]
+        
+class WithdrawalSerializer(serializers.Serializer):
+    confirm = serializers.CharField(help_text="DELETE를 정확히 입력해야 합니다.")
+    password = serializers.CharField(
+        required=False, allow_blank=True, write_only=True, style={'input_type': 'password'}
+    )
+    reason = serializers.CharField(required=False, allow_blank=True)
